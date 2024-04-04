@@ -1,9 +1,13 @@
 using Application;
 using Application.Abstractions;
+using Application.MediatR.Users.Commands;
+using Application.MediatR.Users.Queries;
 using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace WebApi
 {
@@ -21,6 +25,8 @@ namespace WebApi
             builder.Services.AddSwaggerGen();
             builder.Services.AddApplication().AddInfrastructure();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(CreateUser))));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetUserById))));
 
             var cs = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(cs)); ;

@@ -12,6 +12,7 @@ namespace Domain.Entities
         [Key]
         public int UserID { get; set; }
 
+        public string Name { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }

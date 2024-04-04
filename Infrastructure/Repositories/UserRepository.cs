@@ -26,7 +26,7 @@ namespace Infrastructure.Repositories
         public async Task DeleteUser(int userId)
         {
             var user = _context.User
-                .FirstOrDefault(p => p.Id == userId);
+                .FirstOrDefault(p => p.UserID == userId);
 
             if (user is null) return;
 
@@ -42,12 +42,12 @@ namespace Infrastructure.Repositories
 
         public async Task<User> GetUserById(int personId)
         {
-            return await _context.User.FirstOrDefaultAsync(p => p.Id == personId);
+            return await _context.User.FirstOrDefaultAsync(p => p.UserID == personId);
         }
 
         public async Task<User> UpdateUser(int userId, string name, string email)
         {
-            var user = await _context.User.FirstOrDefaultAsync(p => p.Id == userId);
+            var user = await _context.User.FirstOrDefaultAsync(p => p.UserID == userId);
             user.Name = name;
             user.Email = email;
 
