@@ -22,11 +22,11 @@ namespace Domain.Entities
         public int OrderID { get; set; }
 
         [ForeignKey("OrderID")]
-        public virtual Order Order { get; set; }
+        public Order? Order { get; set; }
 
         public int ProductID { get; set; }
 
         [ForeignKey("ProductID")]
-        public virtual Product Product { get; set; }
+        public Product? Product { get; set; }
     };
 }

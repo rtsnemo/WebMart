@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions;
 using Application.MediatR.Users.Commands;
 using Domain.Entities;
+using Infrastructure.Services.Users;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,22 +13,34 @@ namespace Application.MediatR.Users.CommandHandlers
 {
     public class CreateUserHandler : IRequestHandler<CreateUser, User>
     {
+        private readonly PasswordHasher _passwordHasher;
         private readonly IUserRepository _userRepository;
 
-        public CreateUserHandler(IUserRepository userRepository)
+        public CreateUserHandler(IUserRepository userRepository, PasswordHasher passwordHasher)
         {
+            _passwordHasher = passwordHasher;
             _userRepository = userRepository;
         }
 
         public async Task<User> Handle(CreateUser request, CancellationToken cancellationToken)
         {
-            var user = new User
+            var username = request.Name;
+            var email = request.Email;
+            var password = _passwordHasher.HashPassword(request.Password);
+
+            // Проверяем, существует ли пользователь с таким именем
+
+            // Создаем нового пользователя
+            var newUser = new User
             {
-                Name = request.Name,
-                Email = request.Email
+                Name = username,
+                Email = email,
+                Password = password.Hash, // В реальном приложении следует хешировать пароль
+                Salt = password.Salt
             };
 
-            return await _userRepository.AddUser(user);
+            // Добавляем пользователя в базу данных
+            _userRepository.AddUser(newUser);
         }
     }
 }

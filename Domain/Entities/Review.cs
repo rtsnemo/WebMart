@@ -16,16 +16,16 @@ namespace Domain.Entities
         [Required]
         public int Rating { get; set; }
 
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         public int UserID { get; set; }
 
         [ForeignKey("UserID")]
-        public virtual User User { get; set; }
+        public User? User { get; set; }
 
         public int ProductID { get; set; }
 
         [ForeignKey("ProductID")]
-        public virtual Product Product { get; set; }
+        public Product? Product { get; set; }
     };
 }
