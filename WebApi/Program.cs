@@ -5,6 +5,7 @@ using Application.MediatR.Users.Queries;
 using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
+using Infrastructure.Services.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -25,6 +26,7 @@ namespace WebApi
             builder.Services.AddSwaggerGen();
             builder.Services.AddApplication().AddInfrastructure();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddSingleton<PasswordHasher>();
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(CreateUser))));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetUserById))));
 

@@ -34,13 +34,17 @@ namespace Application.MediatR.Users.CommandHandlers
             var newUser = new User
             {
                 Name = username,
+                Balance = request.Balance,
+                Role = request.Role,
                 Email = email,
                 Password = password.Hash, // В реальном приложении следует хешировать пароль
                 Salt = password.Salt
             };
 
             // Добавляем пользователя в базу данных
-            _userRepository.AddUser(newUser);
+            await _userRepository.AddUser(newUser);
+
+            return newUser;
         }
     }
 }
