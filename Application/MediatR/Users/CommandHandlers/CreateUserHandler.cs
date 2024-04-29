@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using Application.Abstractions.Users;
 using Application.MediatR.Users.Commands;
 using Domain.Entities;
 using Infrastructure.Services.Users;

@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using Application.Abstractions.Users;
 using Application.MediatR.Users.Queries;
 using Domain.Entities;
 using System;

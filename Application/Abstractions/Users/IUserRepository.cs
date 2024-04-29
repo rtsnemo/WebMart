@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Abstractions
+namespace Application.Abstractions.Users
 {
     public interface IUserRepository
     {
         Task<ICollection<User>> GetAll();
 
         Task<User> GetUserById(int userId);
+
+        Task<User> GetUserByName(string name);
 
         Task<User> AddUser(User toCreate);
 

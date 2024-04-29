@@ -1,5 +1,5 @@
 using Application;
-using Application.Abstractions;
+using Application.Abstractions.Users;
 using Application.MediatR.Users.Commands;
 using Application.MediatR.Users.Queries;
 using Infrastructure;

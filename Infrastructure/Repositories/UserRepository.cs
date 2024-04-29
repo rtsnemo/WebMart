@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Abstractions;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Application.Abstractions.Users;
 
 namespace Infrastructure.Repositories
 {
@@ -43,6 +43,13 @@ namespace Infrastructure.Repositories
         public async Task<User> GetUserById(int personId)
         {
             return await _context.User.FirstOrDefaultAsync(p => p.UserID == personId);
+        }
+
+        public async Task<User> GetUserByName(string Name)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(x => x.Name == Name);
+
+            return user;
         }
 
         public async Task<User> UpdateUser(int userId, string name, string email)
