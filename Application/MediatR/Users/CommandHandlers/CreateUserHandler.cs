@@ -13,10 +13,10 @@ namespace Application.MediatR.Users.CommandHandlers
 {
     public class CreateUserHandler : IRequestHandler<CreateUser, User>
     {
-        private readonly PasswordHasher _passwordHasher;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly IUserRepository _userRepository;
 
-        public CreateUserHandler(IUserRepository userRepository, PasswordHasher passwordHasher)
+        public CreateUserHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
         {
             _passwordHasher = passwordHasher;
             _userRepository = userRepository;
@@ -28,20 +28,16 @@ namespace Application.MediatR.Users.CommandHandlers
             var email = request.Email;
             var password = _passwordHasher.HashPassword(request.Password);
 
-            // Проверяем, существует ли пользователь с таким именем
-
-            // Создаем нового пользователя
             var newUser = new User
             {
                 Name = username,
                 Balance = request.Balance,
                 Role = request.Role,
                 Email = email,
-                Password = password.Hash, // В реальном приложении следует хешировать пароль
+                Password = password.Hash,
                 Salt = password.Salt
             };
 
-            // Добавляем пользователя в базу данных
             await _userRepository.AddUser(newUser);
 
             return newUser;

@@ -2,6 +2,7 @@
 using Application.MediatR.Users.Queries;
 using Domain.Entities;
 using Infrastructure.Services.Users;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.MediatR.Users.QueryHandlers
 {
-    public class SignInUserHandler
+    public class SignInUserHandler : IRequestHandler<SignInUser, string>
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
@@ -23,7 +24,7 @@ namespace Application.MediatR.Users.QueryHandlers
             _jwtGeneratorService = jwtGeneratorService;
         }
 
-        public async Task<string> SignInUser(SignInUser request)
+        public async Task<string> Handle(SignInUser request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserByName(request.Name);
 
@@ -32,12 +33,13 @@ namespace Application.MediatR.Users.QueryHandlers
                 throw new InvalidDataException("No user with this name.");
             }
 
-            if(!_passwordHasher.VerifyPassword(request.Password, user.Password, user.Salt))
+            if (!_passwordHasher.VerifyPassword(request.Password, user.Password, user.Salt))
             {
                 throw new InvalidDataException("Wrong password!");
             }
 
             return _jwtGeneratorService.GenerateJwtToken(user);
-        } 
+        }
+
     }
 }

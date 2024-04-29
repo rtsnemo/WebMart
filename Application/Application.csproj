@@ -16,7 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\Users\" />
+    <Folder Include="MediatR\Products\" />
+    <Folder Include="MediatR\Orders\" />
   </ItemGroup>
 
 </Project>

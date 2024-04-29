@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Users;
 using Application.MediatR.Users.Queries;
 using Domain.Entities;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.MediatR.Users.QueryHandlers
 {
-    public class GetUserByIdHandler
+    public class GetUserByIdHandler : IRequestHandler<GetUserById, User>
     {
         private readonly IUserRepository _userRepository;
 

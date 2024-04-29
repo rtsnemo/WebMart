@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Abstractions.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services.Users
 {
-    public class PasswordHasher
+    public class PasswordHasher : IPasswordHasher
     {
         public (string Hash, string Salt) HashPassword(string password)
         {

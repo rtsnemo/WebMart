@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Abstractions.Users;
+using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services.Users
 {
-    public class JWTGeneratorService
+    public class JWTGeneratorService : IJWTGeneratorService
     {
         private readonly IConfiguration _builder;
 

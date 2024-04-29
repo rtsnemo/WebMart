@@ -25,10 +25,12 @@ namespace WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddApplication().AddInfrastructure();
+            builder.Services.AddTransient<IJWTGeneratorService, JWTGeneratorService>();
+            builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddSingleton<PasswordHasher>();
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(CreateUser))));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetUserById))));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(SignInUser))));
 
             var cs = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(cs)); ;
