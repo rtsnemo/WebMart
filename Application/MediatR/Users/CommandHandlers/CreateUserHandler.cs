@@ -26,7 +26,7 @@ namespace Application.MediatR.Users.CommandHandlers
         {
             var username = request.Name;
             var email = request.Email;
-            var password = _passwordHasher.HashPassword(request.Password);
+            var (Hash, Salt) = _passwordHasher.HashPassword(request.Password);
 
             var newUser = new User
             {
@@ -34,8 +34,8 @@ namespace Application.MediatR.Users.CommandHandlers
                 Balance = request.Balance,
                 Role = request.Role,
                 Email = email,
-                Password = password.Hash,
-                Salt = password.Salt
+                Password = Hash,
+                Salt = Salt
             };
 
             await _userRepository.AddUser(newUser);

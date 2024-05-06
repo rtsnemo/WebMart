@@ -25,6 +25,9 @@ namespace Domain.Entities
         [Required]
         public int? QuantityInStock { get; set; }
 
+        [ForeignKey("CategoryID")]
+        public Category? Category { get; set; }
+
         public virtual ICollection<OrderItem>? OrderItems { get; set; }
 
         public virtual ICollection<Review>? Reviews { get; set; }

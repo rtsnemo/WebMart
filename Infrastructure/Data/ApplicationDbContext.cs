@@ -8,17 +8,15 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<User> User { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

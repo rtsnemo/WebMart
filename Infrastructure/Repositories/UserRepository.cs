@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories
 
             if (user is null) return;
 
-            _context.User.Remove(user);
+            _context.User.Remove((User)user);
 
             await _context.SaveChangesAsync();
         }

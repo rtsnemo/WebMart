@@ -23,8 +23,6 @@ namespace Domain.Entities
 
         [ForeignKey("UserID")]
         public virtual User? User { get; set; }
-
-        // Коллекция элементов заказа
         public virtual ICollection<OrderItem>? OrderItems { get; set; }
     };
 }

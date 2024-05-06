@@ -11,13 +11,10 @@ namespace WebApi.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    public class UserController : Controller
+    public class UserController(IMediator mediator) : Controller
     {
-        private readonly IMediator _mediator;
-        public UserController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        private readonly IMediator _mediator = mediator;
+
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUser command)
         {
