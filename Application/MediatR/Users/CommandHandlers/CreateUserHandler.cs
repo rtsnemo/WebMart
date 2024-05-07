@@ -1,16 +1,11 @@
 ﻿using Application.Abstractions.Users;
-using Application.MediatR.Users.Commands;
 using Domain.Entities;
-using Infrastructure.Services.Users;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.MediatR.Users.CommandHandlers
 {
+    public record CreateUser(string Name, string Email, string Password, UserRole Role, decimal Balance) : IRequest<User>;
+
     public class CreateUserHandler : IRequestHandler<CreateUser, User>
     {
         private readonly IPasswordHasher _passwordHasher;

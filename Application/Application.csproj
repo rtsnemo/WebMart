@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="MediatR\Orders\" />
+    <Folder Include="MediatR\OrderItems\" />
   </ItemGroup>
 
 </Project>

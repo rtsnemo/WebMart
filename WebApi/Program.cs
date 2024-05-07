@@ -1,14 +1,8 @@
 using Application;
-using Application.Abstractions.Users;
-using Application.MediatR.Users.Commands;
-using Application.MediatR.Users.Queries;
 using Infrastructure;
 using Infrastructure.Data;
-using Infrastructure.Repositories;
-using Infrastructure.Services.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using WebApi.Configuration;
 
 namespace WebApi
 {
@@ -25,12 +19,7 @@ namespace WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddApplication().AddInfrastructure();
-            builder.Services.AddTransient<IJWTGeneratorService, JWTGeneratorService>();
-            builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(CreateUser))));
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetUserById))));
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(SignInUser))));
+            builder.ConfigureServices();
 
             var cs = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(cs)); ;

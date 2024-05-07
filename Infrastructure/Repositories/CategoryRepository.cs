@@ -19,5 +19,10 @@ namespace Infrastructure.Repositories
         {
             return await context.Categories.ToListAsync();
         }
+
+        public async Task<Category> GetCategoryById(int categoryID)
+        {
+            return await context.Categories.FirstOrDefaultAsync(q => q.CategoryID == categoryID);
+        }
     }
 }

@@ -1,11 +1,7 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.MediatR.Users.Queries;
-using Domain.Entities;
-using Microsoft.VisualBasic;
-using Application.MediatR.Users.Commands;
-using Application.MediatR.Users.QueryHandlers;
+using Application.MediatR.Users.CommandHandlers;
 namespace WebApi.Controllers
 {
 

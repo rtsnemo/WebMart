@@ -10,9 +10,12 @@ namespace Application.Abstractions.Reviews
 {
     public interface IReviewRepository
     {
+        Task<Review> AddReview(Review review);
         Task<ICollection<Review>> GetAll();
 
         Task<Review> GetReviewById(int reviewId);
+
+        Task<ICollection<Review>> GetReviewByProduct(int productId);
 
         Task<Review> UpdateReview(int reviewId, ReviewDTO update);
 

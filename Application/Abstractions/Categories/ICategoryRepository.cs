@@ -10,5 +10,6 @@ namespace Application.Abstractions.Categories
     public interface ICategoryRepository
     {
         Task<ICollection<Category>> GetAll();
+        Task<Category> GetCategoryById(int categoryID);
     }
 }

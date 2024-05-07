@@ -9,13 +9,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Infrastructure.Repositories
 {
     public class ReviewRepository(ApplicationDbContext _context) : IReviewRepository
     {
+        public async Task<Review> AddReview(Review command)
+        {
+            var review = new Review
+            {
+                Rating = command.Rating,
+                Comment = command.Comment,
+                UserID = command.UserID,
+                ProductID = command.ProductID
+            };
+
+            _context.Reviews.AddAsync(review);
+            await _context.SaveChangesAsync();
+
+            return review;
+        }
+
         public async Task DeleteReview(int reviewId)
         {
             var review = _context.Reviews
@@ -35,14 +53,23 @@ namespace Infrastructure.Repositories
 
         public async Task<Review> GetReviewById(int reviewId)
         {
-            var review = await _context.Reviews.FirstOrDefaultAsync(x => x.ReviewID == reviewId);
+            var review = await _context.Reviews
+                .FirstOrDefaultAsync(x => x.ReviewID == reviewId);
 
             return review;
         }
 
+        public async Task<ICollection<Review>> GetReviewByProduct(int productId)
+        {
+            return await _context.Reviews
+                .Where(q => q.ProductID == productId)
+                .ToListAsync();
+        }
+
         public async Task<Review> UpdateReview(int reviewId, ReviewDTO update)
         {
-            var review = await _context.Reviews.FirstOrDefaultAsync(p => p.ReviewID == reviewId);
+            var review = await _context.Reviews
+                .FirstOrDefaultAsync(p => p.ReviewID == reviewId);
 
             if (review == null)
             {
