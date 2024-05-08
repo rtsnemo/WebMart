@@ -1,4 +1,6 @@
-﻿using Application.MediatR.Reviews.QueryHandlers;
+﻿using Application.MediatR.Products.CommandHandlers;
+using Application.MediatR.Reviews.CommandHandlers;
+using Application.MediatR.Reviews.QueryHandlers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +15,13 @@ namespace WebApi.Controllers
         public ReviewController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateReview([FromBody] CreateReviewCommand command)
+        {
+            var reviewId = await _mediator.Send(command);
+            return CreatedAtAction(nameof(CreateReview), new { id = reviewId }, reviewId);
         }
 
         [HttpGet("product/{productId}")]

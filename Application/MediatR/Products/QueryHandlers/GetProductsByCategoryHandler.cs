@@ -10,14 +10,9 @@ using System.Threading.Tasks;
 
 namespace Application.MediatR.Products.QueryHandlers
 {
-    public class GetProductsByCategoryHandler
+    public class GetProductsByCategoryHandler(IProductRepository productRepository) : IRequestHandler <GetProductsByCategory, ICollection<Product>>
     {
-        private readonly IProductRepository _productRepository;
-
-        public GetProductsByCategoryHandler(IProductRepository productRepository)
-        {
-            _productRepository = productRepository;
-        }
+        private readonly IProductRepository _productRepository = productRepository;
 
         public async Task<ICollection<Product>> Handle(GetProductsByCategory request, CancellationToken cancellationToken)
         {

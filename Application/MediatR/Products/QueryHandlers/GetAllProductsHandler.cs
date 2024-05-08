@@ -11,9 +11,9 @@ namespace Application.MediatR.Products.QueryHandlers
 {
     public record GetAllProducts() : IRequest<ICollection<Product>>;
 
-    public class GetAllProductsHandler : IRequestHandler<GetAllProducts, ICollection<Product>>
+    public class GetAllProductsHandler(IProductRepository productRepository) : IRequestHandler<GetAllProducts, ICollection<Product>>
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductRepository _productRepository = productRepository;
 
         public async Task<ICollection<Product>> Handle(GetAllProducts request, CancellationToken cancellationToken)
         {

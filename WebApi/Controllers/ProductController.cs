@@ -1,4 +1,5 @@
-﻿using Application.MediatR.Products.Queries;
+﻿using Application.MediatR.Products.CommandHandlers;
+using Application.MediatR.Products.Queries;
 using Application.MediatR.Products.QueryHandlers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,13 @@ namespace WebApi.Controllers
             _mediator = mediator;
         }
 
+        [HttpPost("create-product")]
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
+        {
+            var productId = await _mediator.Send(command);
+            return CreatedAtAction(nameof(CreateProduct), new { id = productId }, productId);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -28,7 +36,7 @@ namespace WebApi.Controllers
         [HttpGet("category/{categoryID}")]
         public async Task<IActionResult> GetProductsByCategory(int categoryID)
         {
-            var products = await _mediator.Send(new GetProductsByCategory(categoryID));
+            var products = await _mediator.Send(new GetProductsByCategory { categoryID = categoryID });
             return Ok(products);
         }
     }

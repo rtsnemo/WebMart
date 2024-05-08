@@ -14,12 +14,12 @@ namespace WebApi
 
             // Add services to the container.
 
+            builder.ConfigureServices();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddApplication().AddInfrastructure();
-            builder.ConfigureServices();
 
             var cs = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(cs)); ;

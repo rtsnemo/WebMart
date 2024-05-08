@@ -12,19 +12,13 @@ using System.Threading.Tasks;
 namespace Application.MediatR.Products.CommandHandlers
 {
     public record CreateProductCommand(string Name, string Description, decimal Price, int QuantityInStock, int CategoryId) : IRequest<int>;
-    public class CreateProductHandler : IRequestHandler<CreateProductCommand, int>
+    public class CreateProductHandler(IProductRepository context) : IRequestHandler<CreateProductCommand, int>
     {
-        private readonly IProductRepository _context;
-        private readonly ICategoryRepository _catContext;
-
-        public CreateProductHandler(IProductRepository context)
-        {
-            _context = context;
-        }
+        private readonly IProductRepository _context = context;
 
         public async Task<int> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            var category = await _catContext.GetCategoryById(command.CategoryId);
+            var category = await _context.GetCategoryById(command.CategoryId);
 
             var product = new Product
             {

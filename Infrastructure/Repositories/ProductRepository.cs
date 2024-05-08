@@ -88,5 +88,10 @@ namespace Infrastructure.Repositories
         {
             return await _context.Products.Where(x => x.Category.CategoryID == categoryID).ToListAsync();
         }
+
+        public async Task<Category> GetCategoryById(int categoryId)
+        {
+            return await _context.Categories.FindAsync(categoryId);
+        }
     }
 }

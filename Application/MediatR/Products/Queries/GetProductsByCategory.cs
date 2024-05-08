@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.MediatR.Products.Queries
 {
-    public class GetProductsByCategory(int categoryID) : IRequest<ICollection<Product>>
+    public class GetProductsByCategory() : IRequest<ICollection<Product>>
     {
         public int categoryID { get; set; }
     }

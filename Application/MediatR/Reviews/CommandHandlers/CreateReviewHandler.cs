@@ -31,8 +31,7 @@ namespace Application.MediatR.Reviews.CommandHandlers
 
             _context.AddReview(review);
 
-            return review.ReviewID; // Возвращаем ID созданного отзыва
+            return review.ReviewID;
         }
-    }
     }
 }

@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Application.MediatR.Products.QueryHandlers
 {
-    internal class GetProductByIdHandler : IRequestHandler<GetProductById, Product>
+    internal class GetProductByIdHandler(IProductRepository productRepository) : IRequestHandler<GetProductById, Product>
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductRepository _productRepository = productRepository;
         public Task<Product> Handle(GetProductById request, CancellationToken cancellationToken)
         {
             return _productRepository.GetProductById(request.Id);

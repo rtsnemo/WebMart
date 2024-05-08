@@ -24,5 +24,7 @@ namespace Application.Abstractions.Products
         Task<ICollection<Product>> GetProductsByCategory(int categoryID);
 
         Task DeleteProduct(int productId);
+
+        Task<Category> GetCategoryById(int categoryId);
     }
 }
