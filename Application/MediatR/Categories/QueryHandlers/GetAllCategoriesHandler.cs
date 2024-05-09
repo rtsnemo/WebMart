@@ -12,14 +12,10 @@ using System.Threading.Tasks;
 namespace Application.MediatR.Categories.QueryHandlers
 {
     public record GetAllCategories() : IRequest<ICollection<Category>>;
-    public class GetAllCategoriesHandler
+    public class GetAllCategoriesHandler(ICategoryRepository categoryRepository) : IRequestHandler<GetAllCategories,ICollection<Category>>
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository = categoryRepository;
 
-        public GetAllCategoriesHandler(ICategoryRepository categoryRepository)
-        {
-            _categoryRepository = categoryRepository;
-        }
         public async Task<ICollection<Category>> Handle(GetAllCategories request, CancellationToken cancellationToken)
         {
             return await _categoryRepository.GetAll();

@@ -13,6 +13,8 @@ namespace Domain.Entities
         [Key]
         public int ProductID { get; set; }
 
+        public string UrlImage { get; set; }
+
         [Required]
         public string? Name { get; set; }
 

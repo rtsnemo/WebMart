@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.MediatR.Products.CommandHandlers
 {
-    public record CreateProductCommand(string Name, string Description, decimal Price, int QuantityInStock, int CategoryId) : IRequest<int>;
+    public record CreateProductCommand(string Name, string UrlImage, string Description, decimal Price, int QuantityInStock, int CategoryId) : IRequest<int>;
     public class CreateProductHandler(IProductRepository context) : IRequestHandler<CreateProductCommand, int>
     {
         private readonly IProductRepository _context = context;
@@ -23,6 +23,7 @@ namespace Application.MediatR.Products.CommandHandlers
             var product = new Product
             {
                 Name = command.Name,
+                UrlImage = command.UrlImage,
                 Description = command.Description,
                 Price = command.Price,
                 QuantityInStock = command.QuantityInStock,
