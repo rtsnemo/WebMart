@@ -37,12 +37,20 @@ namespace Infrastructure.Repositories
 
         public async Task<ICollection<Product>> GetAll()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.OrderItems)
+                .Include(p => p.Reviews)
+                .ToListAsync();
         }
 
         public async Task<Product> GetProductById(int productId)
         {
-            return await _context.Products.FirstOrDefaultAsync(p => p.ProductID == productId);
+            return await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.OrderItems)
+                .Include(p => p.Reviews)
+                .FirstOrDefaultAsync(p => p.ProductID == productId);
         }
 
         public async Task<Product> GetProductByName(string name)

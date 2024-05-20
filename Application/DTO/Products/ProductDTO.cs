@@ -13,7 +13,7 @@ namespace Application.DTO.Products
 
         public string Description { get; set; }
 
-        public int categoryiID { get; set; }
+        public int categoryID { get; set; }
 
         public int QuantityInStock { get; set; }
         public decimal Price { get; set; }

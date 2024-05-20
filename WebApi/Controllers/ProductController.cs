@@ -1,6 +1,7 @@
 ﻿using Application.MediatR.Products.CommandHandlers;
 using Application.MediatR.Products.Queries;
 using Application.MediatR.Products.QueryHandlers;
+using Application.MediatR.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,15 @@ namespace WebApi.Controllers
         {
             var products = await _mediator.Send(new GetProductsByCategory { categoryID = categoryID });
             return Ok(products);
+        }
+
+        [HttpGet("products/{productID}")]
+        public async Task<IActionResult> GetProductById(int productID)
+        {
+            var getProduct = new GetProductById { Id = productID };
+            var product = await _mediator.Send(getProduct);
+
+            return Ok(product);
         }
     }
 }
