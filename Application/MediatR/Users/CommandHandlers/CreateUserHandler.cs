@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.MediatR.Users.CommandHandlers
 {
-    public record CreateUser(string Name, string UrlImage, string Email, string Password, UserRole Role, decimal Balance) : IRequest<User>;
+    public record CreateUser(string Name, string Email, string Password) : IRequest<User>;
 
     public class CreateUserHandler : IRequestHandler<CreateUser, User>
     {
@@ -26,9 +26,9 @@ namespace Application.MediatR.Users.CommandHandlers
             var newUser = new User
             {
                 Name = username,
-                UrlImage = request.UrlImage,
-                Balance = request.Balance,
-                Role = request.Role,
+                UrlImage = String.Empty,
+                Balance = 0,
+                Role = 0,
                 Email = email,
                 Password = Hash,
                 Salt = Salt

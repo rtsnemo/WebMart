@@ -19,10 +19,10 @@ namespace Domain.Entities
         [Required]
         public string? Status { get; set; }
 
-        public int UserID { get; set; }
+        public int CustomerID { get; set; }
 
-        [ForeignKey("UserID")]
-        public virtual User? User { get; set; }
+        [ForeignKey("CustomerID")]
+        public virtual Customer? Customer{ get; set; }
         public virtual ICollection<OrderItem>? OrderItems { get; set; }
     };
 }

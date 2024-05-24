@@ -8,14 +8,9 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReviewController : ControllerBase
+    public class ReviewController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public ReviewController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        private readonly IMediator _mediator = mediator;
 
         [HttpPost]
         public async Task<IActionResult> CreateReview([FromBody] CreateReviewCommand command)

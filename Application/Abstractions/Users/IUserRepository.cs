@@ -15,6 +15,8 @@ namespace Application.Abstractions.Users
 
         Task<User> GetUserByName(string name);
 
+        Task<User> GetUserByEmail(string email);
+
         Task<User> AddUser(User toCreate);
 
         Task<User> UpdateUser(int userId, string name, string email);

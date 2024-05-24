@@ -26,7 +26,7 @@ namespace Application.MediatR.Users.QueryHandlers
 
         public async Task<string> Handle(SignInUser request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetUserByName(request.Name) ??
+            var user = await _userRepository.GetUserByEmail(request.Email) ??
                 throw new InvalidDataException("No user with this name.");
             if (!_passwordHasher.VerifyPassword(request.Password, user.Password, user.Salt))
             {

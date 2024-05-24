@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Categories;
+using Application.Abstractions.Customers;
 using Application.Abstractions.Products;
 using Application.Abstractions.Reviews;
 using Application.Abstractions.Users;
@@ -21,6 +22,7 @@ namespace WebApi.Configuration
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddTransient<IJWTGeneratorService, JWTGeneratorService>();
             builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
