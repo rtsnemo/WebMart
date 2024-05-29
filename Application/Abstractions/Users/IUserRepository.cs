@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using Application.MediatR.Users.CommandHandlers;
+using Application.MediatR.Users.Commands;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,7 @@ namespace Application.Abstractions.Users
 
         Task<User> AddUser(User toCreate);
 
-        Task<User> UpdateUser(int userId, string name, string email);
+        Task<User> UpdateUserAsync(UpdateUser update);
 
         Task DeleteUser(int userId);
     }

@@ -22,21 +22,24 @@ namespace WebApi.Controllers
             _customerRepository = customerRepository;
         }
 
-        [HttpPost]
+        [HttpPost("create-order")]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
         {
-            // Создание пользователя, если его нет
+            // Проверка, существует ли клиент
             var existingCustomer = await _customerRepository.GetCustomerByEmail(request.Customer.Email);
             if (existingCustomer == null)
-                existingCustomer = new Customer
+            {
+                // Создание нового клиента
+                var newCustomer = new Customer
                 {
                     Address = request.Customer.Address,
                     Email = request.Customer.Email,
                     Name = request.Customer.Name,
                     PhoneNumber = request.Customer.PhoneNumber,
                 };
-
-                await _customerRepository.AddCustomer(existingCustomer);
+                await _customerRepository.AddCustomer(newCustomer);
+                existingCustomer = newCustomer;
+            }
 
             // Создание заказа
             var order = new Order
@@ -62,10 +65,12 @@ namespace WebApi.Controllers
 
                 var orderItem = new OrderItem
                 {
+                    OrderID = order.OrderID, // Используем OrderID из сохраненного заказа
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
                     Price = item.Price
                 };
+                product.QuantityInStock -= item.Quantity;
                 orderItems.Add(orderItem);
             }
 
@@ -90,5 +95,6 @@ namespace WebApi.Controllers
 
             return Ok(response);
         }
+
     }
 }

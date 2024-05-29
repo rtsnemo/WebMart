@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Application.MediatR.Users.QueryHandlers
@@ -33,7 +34,13 @@ namespace Application.MediatR.Users.QueryHandlers
                 throw new InvalidDataException("Wrong password!");
             }
 
-            return _jwtGeneratorService.GenerateJwtToken(user);
+            var response = new
+            {
+                JWT = _jwtGeneratorService.GenerateJwtToken(user),
+                Role = user.Role.ToString()
+            };
+
+            return JsonSerializer.Serialize(response);
         }
 
     }

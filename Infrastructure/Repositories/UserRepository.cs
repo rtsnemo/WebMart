@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Application.Abstractions.Users;
+using Application.MediatR.Users.CommandHandlers;
+using Application.MediatR.Users.Commands;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Repositories
 {
@@ -42,7 +45,7 @@ namespace Infrastructure.Repositories
 
         public async Task<User> GetUserById(int personId)
         {
-            return await _context.User.FirstOrDefaultAsync(p => p.UserID == personId);
+            return await _context.User.Include(u=> u.ProfileImage).FirstOrDefaultAsync(p => p.UserID == personId);
         }
 
         public async Task<User> GetUserByName(string Name)
@@ -59,15 +62,32 @@ namespace Infrastructure.Repositories
             return user;
         }
 
-        public async Task<User> UpdateUser(int userId, string name, string email)
+        public async Task<User> UpdateUserAsync(UpdateUser request)
         {
-            var user = await _context.User.FirstOrDefaultAsync(p => p.UserID == userId);
-            user.Name = name;
-            user.Email = email;
+            var user = await _context.User.FirstOrDefaultAsync(u => u.UserID == request.UserId);
+            if (user == null) throw new KeyNotFoundException("User not found");
+
+            if (!string.IsNullOrEmpty(request.Name))
+            {
+                user.Name = request.Name;
+            }
+
+            if (!string.IsNullOrEmpty(request.Image))
+            {
+                var image = await AddImageAsync(request.Image);
+                user.ImageID = image.ImageID;
+            }
 
             await _context.SaveChangesAsync();
-
             return user;
+        }
+
+        public async Task<Image> AddImageAsync(string base64Data)
+        {
+            var image = new Image { Base64Data = base64Data };
+            _context.Images.Add(image);
+            await _context.SaveChangesAsync();
+            return image;
         }
     }
 }

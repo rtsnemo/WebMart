@@ -1,6 +1,7 @@
 using Application;
 using Infrastructure;
 using Infrastructure.Data;
+using JWT;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Configuration;
 
@@ -27,6 +28,9 @@ namespace WebApi
             var cs = builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(cs));
+
+            builder.Services.AddSwaggerGenCustom();
+            builder.Authentication();
 
             builder.Services.AddCors(options =>
             {

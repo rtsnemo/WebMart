@@ -26,7 +26,7 @@ namespace Application.MediatR.Users.CommandHandlers
             var newUser = new User
             {
                 Name = username,
-                UrlImage = String.Empty,
+                ImageID = 0,
                 Balance = 0,
                 Role = 0,
                 Email = email,

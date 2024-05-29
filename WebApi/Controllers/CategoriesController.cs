@@ -1,5 +1,7 @@
-﻿using Application.MediatR.Categories.QueryHandlers;
+﻿using Application.Abstractions.Categories;
+using Application.MediatR.Categories.QueryHandlers;
 using Application.MediatR.Products.QueryHandlers;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +14,11 @@ namespace WebApi.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public CategoriesController(IMediator mediator)
+        private readonly ICategoryRepository _categoryRepository;
+        public CategoriesController(IMediator mediator, ICategoryRepository categoryRepository)
         {
             _mediator = mediator;
+            _categoryRepository = categoryRepository;
         }
 
 
@@ -23,6 +27,50 @@ namespace WebApi.Controllers
         {
             var categories = await _mediator.Send(new GetAllCategories());
             return Ok(categories);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Category>> PostCategory(Category category)
+        {
+            await _categoryRepository.AddCategory(category);
+            return CreatedAtAction("GetCategory", new { id = category.CategoryID }, category);
+        }
+
+        // PUT: api/Category/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCategory(int id, Category category)
+        {
+            if (id != category.CategoryID)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await _categoryRepository.UpdateCategory(category);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/Category/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Category>> DeleteCategory(int id)
+        {
+            try
+            {
+                await _categoryRepository.DeleteCategory(id);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

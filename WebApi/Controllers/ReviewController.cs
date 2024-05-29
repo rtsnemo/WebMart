@@ -1,7 +1,9 @@
 ﻿using Application.MediatR.Products.CommandHandlers;
 using Application.MediatR.Reviews.CommandHandlers;
+using Application.MediatR.Reviews.Commands;
 using Application.MediatR.Reviews.QueryHandlers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -12,10 +14,19 @@ namespace WebApi.Controllers
     {
         private readonly IMediator _mediator = mediator;
 
-        [HttpPost]
-        public async Task<IActionResult> CreateReview([FromBody] CreateReviewCommand command)
+        [Authorize]
+        [HttpPost("add")]
+        public async Task<IActionResult> CreateReview([FromBody] CreateReview command)
         {
-            var reviewId = await _mediator.Send(command);
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "sid")?.Value;
+
+            if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            var newReview = new CreateReview { Comment = command.Comment, UserId = userId, ProductId = command.ProductId };
+            var reviewId = await _mediator.Send(newReview);
             return CreatedAtAction(nameof(CreateReview), new { id = reviewId }, reviewId);
         }
 

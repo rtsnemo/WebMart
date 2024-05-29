@@ -12,8 +12,6 @@ namespace Domain.Entities
     {
         [Key]
         public int UserID { get; set; }
-        
-        public string? UrlImage { get; set; }
 
         public string? Name { get; set; }
         [Required]
@@ -29,8 +27,13 @@ namespace Domain.Entities
 
         [Column(TypeName = "decimal(18, 2)")]
         public decimal? Balance { get; set; }
+
+        public int? ImageID { get; set; }
+        [ForeignKey("ImageID")]
+        public virtual Image? ProfileImage { get; set; }
+
         public virtual ICollection<Review>? Reviews { get; set; }
 
         public virtual ICollection<Order>? Orders { get; set; }
-    };
+    }
 }

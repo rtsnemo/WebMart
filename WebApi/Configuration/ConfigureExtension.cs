@@ -6,8 +6,10 @@ using Application.Abstractions.Users;
 using Application.MediatR.Categories.QueryHandlers;
 using Application.MediatR.Products.Queries;
 using Application.MediatR.Products.QueryHandlers;
+using Application.MediatR.Reviews.Commands;
 using Application.MediatR.Reviews.QueryHandlers;
 using Application.MediatR.Users.CommandHandlers;
+using Application.MediatR.Users.Commands;
 using Application.MediatR.Users.Queries;
 using Infrastructure.Repositories;
 using Infrastructure.Services.Users;
@@ -30,11 +32,15 @@ namespace WebApi.Configuration
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetAllCategories))));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetProductsByCategory))));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(CreateUser))));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(CreateReview))));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetReviewsByProduct))));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(UpdateUser))));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetUserById))));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(SignInUser))));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetAllProducts))));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetProductById))));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetReviewsByProduct))));
+
 
         }
     }

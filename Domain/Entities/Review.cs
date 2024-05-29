@@ -13,9 +13,6 @@ namespace Domain.Entities
         [Key]
         public int ReviewID { get; set; }
 
-        [Required]
-        public int Rating { get; set; }
-
         public string? Comment { get; set; }
 
         public int UserID { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Reviews;
+using Application.MediatR.Reviews.Commands;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -9,8 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.MediatR.Reviews.CommandHandlers
 {
-    public record CreateReviewCommand(int Rating, string Comment, int UserId, int ProductId) : IRequest<int>;
-    public class CreateReviewHandler : IRequestHandler<CreateReviewCommand, int>
+    public class CreateReviewHandler : IRequestHandler<CreateReview, int>
     {
         private readonly IReviewRepository _context;
 
@@ -19,11 +19,10 @@ namespace Application.MediatR.Reviews.CommandHandlers
             _context = context;
         }
 
-        public async Task<int> Handle(CreateReviewCommand command, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateReview command, CancellationToken cancellationToken)
         {
             var review = new Review
             {
-                Rating = command.Rating,
                 Comment = command.Comment,
                 UserID = command.UserId,
                 ProductID = command.ProductId

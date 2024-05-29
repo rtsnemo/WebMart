@@ -22,7 +22,6 @@ namespace Infrastructure.Repositories
         {
             var review = new Review
             {
-                Rating = command.Rating,
                 Comment = command.Comment,
                 UserID = command.UserID,
                 ProductID = command.ProductID
@@ -63,6 +62,7 @@ namespace Infrastructure.Repositories
         {
             return await _context.Reviews
                 .Where(q => q.ProductID == productId)
+                .Include(r => r.User).Include(t=> t.User.ProfileImage)
                 .ToListAsync();
         }
 
