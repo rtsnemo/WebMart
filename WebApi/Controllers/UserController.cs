@@ -5,6 +5,8 @@ using Application.MediatR.Users.CommandHandlers;
 using Microsoft.AspNetCore.Authorization;
 using Application.DTO.Users;
 using Application.MediatR.Users.Commands;
+using Application.MediatR.Categories.QueryHandlers;
+using Application.MediatR.Users.QueryHandlers;
 namespace WebApi.Controllers
 {
 
@@ -22,7 +24,7 @@ namespace WebApi.Controllers
             // Возвращаем объект с кодом состояния HTTP 201 и URI для доступа к созданному пользователю
             return CreatedAtAction(nameof(GetUserById), new { id = createdUser.UserID }, createdUser);
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
             var getUser = new GetUserById { Id = id };
@@ -39,8 +41,8 @@ namespace WebApi.Controllers
             return Ok(result);
         }
         [Authorize]
-        [HttpPut("update-user")]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUser request)
+        [HttpPut("update-user-profile")]
+        public async Task<IActionResult> UpdateUserProfile([FromBody] UpdateUser request)
         {
             var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "sid")?.Value;
 
@@ -74,5 +76,32 @@ namespace WebApi.Controllers
             return Ok(user);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var users = await _mediator.Send(new GetAllUsers());
+            return Ok(users);
+        }
+
+        [Authorize]
+        [HttpPut("update-user")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUser request)
+        {
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "sid")?.Value;
+
+            if (request.UserId != null)
+            {
+                var adminchange = await _mediator.Send(new UpdateUser { UserId = request.UserId, Image = request.Image, Name = request.Name });
+                return Ok(adminchange);
+            }
+
+            if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = await _mediator.Send(new UpdateUser { UserId = userId, Image = request.Image, Name = request.Name });
+            return Ok(user);
+        }
     }
 }

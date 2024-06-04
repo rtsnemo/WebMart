@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class CustomerRepository(ApplicationDbContext _context) : ICustomerRepository
+    public class CustomerRepository(ApplicationDbContext context) : ICustomerRepository
     {
-        private readonly ApplicationDbContext context = _context;
+        private readonly ApplicationDbContext _context = context;
 
         public async Task<Customer> AddCustomer(Customer toCreate)
         {

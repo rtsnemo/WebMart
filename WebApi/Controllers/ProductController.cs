@@ -1,7 +1,10 @@
-﻿using Application.MediatR.Products.CommandHandlers;
+﻿using Application.Abstractions.Products;
+using Application.MediatR.Products.CommandHandlers;
+using Application.MediatR.Products.Commands;
 using Application.MediatR.Products.Queries;
 using Application.MediatR.Products.QueryHandlers;
 using Application.MediatR.Users.Queries;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,8 +14,9 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController(IMediator mediator) : ControllerBase
+    public class ProductController(IMediator mediator, IProductRepository productRepository) : ControllerBase
     {
+        private readonly IProductRepository _productRepository = productRepository;
         private readonly IMediator _mediator = mediator;
 
         [HttpPost("create-product")]
@@ -43,6 +47,21 @@ namespace WebApi.Controllers
             var product = await _mediator.Send(getProduct);
 
             return Ok(product);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProduct(UpdateProduct product)
+        {
+            try
+            {
+                var updatedProduct = await _mediator.Send(product);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

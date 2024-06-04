@@ -1,6 +1,8 @@
 ﻿using Application.Abstractions.Customers;
 using Application.Abstractions.Users;
 using Application.DTO.Orders;
+using Application.MediatR.Orders.QueryHandlers;
+using Application.MediatR.Users.QueryHandlers;
 using Domain.Entities;
 using Infrastructure.Data;
 using MediatR;
@@ -13,13 +15,15 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly ApplicationDbContext _context;
         private readonly ICustomerRepository _customerRepository;
 
-        public OrdersController(ApplicationDbContext context, ICustomerRepository customerRepository)
+        public OrdersController(ApplicationDbContext context, ICustomerRepository customerRepository, IMediator mediator)
         {
             _context = context;
             _customerRepository = customerRepository;
+            _mediator = mediator;
         }
 
         [HttpPost("create-order")]
@@ -96,5 +100,11 @@ namespace WebApi.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var orders = await _mediator.Send(new GetAllOrders());
+            return Ok(orders);
+        }
     }
 }

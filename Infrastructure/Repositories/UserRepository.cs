@@ -17,6 +17,10 @@ namespace Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context = context;
 
+        public async Task<ICollection<User>> GetAllUsers()
+        {
+            return await _context.User.Include(u => u.ProfileImage).ToListAsync();
+        }
         public async Task<User> AddUser(User toCreate)
         {
             _context.User.Add(toCreate);
@@ -37,12 +41,6 @@ namespace Infrastructure.Repositories
 
             await _context.SaveChangesAsync();
         }
-
-        public async Task<ICollection<User>> GetAll()
-        {
-            return await _context.User.ToListAsync();
-        }
-
         public async Task<User> GetUserById(int personId)
         {
             return await _context.User.Include(u=> u.ProfileImage).FirstOrDefaultAsync(p => p.UserID == personId);

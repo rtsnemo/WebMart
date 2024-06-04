@@ -1,4 +1,5 @@
 ﻿using Application.DTO.Products;
+using Application.MediatR.Products.Commands;
 using Application.MediatR.Products.Queries;
 using Domain.Entities;
 using System;
@@ -19,7 +20,7 @@ namespace Application.Abstractions.Products
 
         Task<Product> AddProduct(Product toCreate);
 
-        Task<Product> UpdateProduct(int productId, ProductDTO update);
+        Task<Product> UpdateProduct(UpdateProduct productDTO);
 
         Task<ICollection<Product>> GetProductsByCategory(int categoryID);
 

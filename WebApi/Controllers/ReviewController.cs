@@ -2,6 +2,7 @@
 using Application.MediatR.Reviews.CommandHandlers;
 using Application.MediatR.Reviews.Commands;
 using Application.MediatR.Reviews.QueryHandlers;
+using Application.MediatR.Users.QueryHandlers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,13 @@ namespace WebApi.Controllers
         {
             var reviews = await _mediator.Send(new GetReviewsByProduct(productId));
 
+            return Ok(reviews);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var reviews = await _mediator.Send(new GetAllReviews());
             return Ok(reviews);
         }
     }

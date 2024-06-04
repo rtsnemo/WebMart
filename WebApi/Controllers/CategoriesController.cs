@@ -33,7 +33,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
             await _categoryRepository.AddCategory(category);
-            return CreatedAtAction("GetCategory", new { id = category.CategoryID }, category);
+            return Ok();
         }
 
         // PUT: api/Category/5

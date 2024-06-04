@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Products;
 using Application.DTO.Products;
+using Application.MediatR.Products.Commands;
 using Application.MediatR.Products.Queries;
 using Domain.Entities;
 using Infrastructure.Data;
@@ -60,16 +61,16 @@ namespace Infrastructure.Repositories
             return user;
         }
 
-        public async Task<Product> UpdateProduct(int productId, ProductDTO update)
+        public async Task<Product> UpdateProduct(UpdateProduct update)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductID == productId);
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductID == update.ProductID);
 
             if (product == null)
             {
-                throw new KeyNotFoundException($"Product with ID {productId} not found.");
+                throw new KeyNotFoundException($"Product with ID {update.ProductID} not found.");
             }
 
-            var updateProperties = typeof(ProductDTO).GetProperties();
+            var updateProperties = typeof(UpdateProduct).GetProperties();
 
             foreach (var prop in updateProperties)
             {

@@ -11,7 +11,7 @@ namespace Application.Abstractions.Users
 {
     public interface IUserRepository
     {
-        Task<ICollection<User>> GetAll();
+        Task<ICollection<User>> GetAllUsers();
 
         Task<User> GetUserById(int userId);
 
