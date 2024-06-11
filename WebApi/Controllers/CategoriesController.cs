@@ -36,15 +36,10 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        // PUT: api/Category/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, Category category)
+        // PUT: api/Categories
+        [HttpPut("update-category")]
+        public async Task<IActionResult> PutCategory(Category category)
         {
-            if (id != category.CategoryID)
-            {
-                return BadRequest();
-            }
-
             try
             {
                 await _categoryRepository.UpdateCategory(category);

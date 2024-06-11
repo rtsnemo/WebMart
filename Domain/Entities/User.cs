@@ -28,9 +28,7 @@ namespace Domain.Entities
         [Column(TypeName = "decimal(18, 2)")]
         public decimal? Balance { get; set; }
 
-        public int? ImageID { get; set; }
-        [ForeignKey("ImageID")]
-        public virtual Image? ProfileImage { get; set; }
+        public string UrlImage { get; set; }
 
         public virtual ICollection<Review>? Reviews { get; set; }
 

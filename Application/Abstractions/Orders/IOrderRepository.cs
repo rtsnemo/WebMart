@@ -13,5 +13,6 @@ namespace Application.Abstractions.Orders
     {
         Task<ICollection<Order>> GetAll();
 
+        Task<ICollection<Order>> GetOrdersByUser(int userId);
     }
 }

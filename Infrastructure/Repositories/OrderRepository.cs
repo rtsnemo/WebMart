@@ -20,7 +20,13 @@ namespace Infrastructure.Repositories
         }
         public async Task<ICollection<Order>> GetAll()
         {
-            return await _context.Orders.Include(u => u.OrderItems).ToListAsync();
+            return await _context.Orders.Include(u => u.OrderItems).Include(c => c.Customer).ToListAsync();
+        }
+
+        public async Task<ICollection<Order>> GetOrdersByUser(int userId)
+        {
+            var user =await _context.User.FirstOrDefaultAsync(u => u.UserID == userId);
+            return await _context.Orders.Where(u => u.Customer.Email == user.Email).Include(i => i.OrderItems).ThenInclude(p => p.Product).ToListAsync();
         }
     }
 }

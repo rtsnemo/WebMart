@@ -17,7 +17,6 @@ namespace Infrastructure.Data
         public DbSet<User> User { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,12 +39,6 @@ namespace Infrastructure.Data
                 .HasOne(r => r.Product)
                 .WithMany(p => p.Reviews)
                 .HasForeignKey(r => r.ProductID);
-
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.ProfileImage)
-                .WithMany()
-                .HasForeignKey(u => u.ImageID);
-
 
             base.OnModelCreating(modelBuilder);
         }

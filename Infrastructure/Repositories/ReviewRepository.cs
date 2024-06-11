@@ -47,7 +47,7 @@ namespace Infrastructure.Repositories
 
         public async Task<ICollection<Review>> GetAll()
         {
-            return await _context.Reviews.ToListAsync();
+            return await _context.Reviews.Include(u => u.User).ToListAsync();
         }
 
         public async Task<Review> GetReviewById(int reviewId)
@@ -62,7 +62,7 @@ namespace Infrastructure.Repositories
         {
             return await _context.Reviews
                 .Where(q => q.ProductID == productId)
-                .Include(r => r.User).Include(t=> t.User.ProfileImage)
+                .Include(r => r.User)
                 .ToListAsync();
         }
 

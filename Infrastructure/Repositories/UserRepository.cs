@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories
 
         public async Task<ICollection<User>> GetAllUsers()
         {
-            return await _context.User.Include(u => u.ProfileImage).ToListAsync();
+            return await _context.User.ToListAsync();
         }
         public async Task<User> AddUser(User toCreate)
         {
@@ -43,7 +43,7 @@ namespace Infrastructure.Repositories
         }
         public async Task<User> GetUserById(int personId)
         {
-            return await _context.User.Include(u=> u.ProfileImage).FirstOrDefaultAsync(p => p.UserID == personId);
+            return await _context.User.FirstOrDefaultAsync(p => p.UserID == personId);
         }
 
         public async Task<User> GetUserByName(string Name)
@@ -72,20 +72,11 @@ namespace Infrastructure.Repositories
 
             if (!string.IsNullOrEmpty(request.Image))
             {
-                var image = await AddImageAsync(request.Image);
-                user.ImageID = image.ImageID;
+                user.UrlImage = request.Image;
             }
 
             await _context.SaveChangesAsync();
             return user;
-        }
-
-        public async Task<Image> AddImageAsync(string base64Data)
-        {
-            var image = new Image { Base64Data = base64Data };
-            _context.Images.Add(image);
-            await _context.SaveChangesAsync();
-            return image;
         }
     }
 }

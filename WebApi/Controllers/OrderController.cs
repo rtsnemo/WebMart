@@ -6,6 +6,7 @@ using Application.MediatR.Users.QueryHandlers;
 using Domain.Entities;
 using Infrastructure.Data;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -98,6 +99,23 @@ namespace WebApi.Controllers
             };
 
             return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("my-orders")]
+        public async Task<IActionResult> GetUserOrders()
+        {
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "sid")?.Value;
+
+            if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            var query = new GetOrdersByUser(userId);
+            var orders = await _mediator.Send(query);
+
+            return Ok(orders);
         }
 
         [HttpGet]
